@@ -17,4 +17,5 @@
 	#define ALLOC_UAF_OBJ _IO (IOCTL_NUM, 3)
 	#define USE_UAF_OBJ _IO (IOCTL_NUM, 4)
 	#define ALLOC_K_OBJ _IOR (IOCTL_NUM, 5, unsigned long)
+	#define FREE_UAF_OBJ _IO(IOCTL_NUM, 6)
 #endif

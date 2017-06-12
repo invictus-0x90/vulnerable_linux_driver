@@ -52,7 +52,23 @@
 
 		global_uaf_obj = target;
 
+		printk(KERN_WARNING "[x] Allocated uaf object [x]\n");
+
 		return 0;
+	}
+
+	/**
+	* Here we allow the userspace program the ability
+	* to tell the kernel to free the global uaf_object.
+	*/
+	static void free_uaf_obj(void)
+	{
+		kfree(global_uaf_obj);
+
+		//if we wanted to make this more secure, we would
+		//do global_uaf_obj = NULL after freeing it.
+
+		printk(KERN_WARNING "[x] uaf object freed [x]");
 	}
 
 	/**

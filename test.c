@@ -23,8 +23,10 @@ int main(void)
 	k_object *obj = malloc(sizeof(k_object));
 	memset(obj->buff, 0x41, sizeof(obj->buff));
 
-	ioctl(fd, DRIVER_TEST);
+	ioctl(fd, DRIVER_TEST, NULL);
 	ioctl(fd, ALLOC_UAF_OBJ, NULL);
 	ioctl(fd, USE_UAF_OBJ, NULL);
 	ioctl(fd, ALLOC_K_OBJ, obj);
+	ioctl(fd, FREE_UAF_OBJ, NULL);
+	ioctl(fd, USE_UAF_OBJ, NULL);
 }

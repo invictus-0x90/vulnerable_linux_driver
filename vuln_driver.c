@@ -34,6 +34,9 @@ static long do_ioctl(struct file *filp, unsigned int cmd, unsigned long args)
 		case ALLOC_K_OBJ:
 			alloc_k_obj((k_object *) args);
 			break;
+		case FREE_UAF_OBJ:
+			free_uaf_obj();
+			break;
 	}
 
 	return 0;
