@@ -12,12 +12,12 @@
 	typedef struct uaf_obj
 	{
 		void (*fn)(void);
-		char buff[128];
+		char buff[504];
 	}uaf_obj;
 
 	typedef struct k_object
 	{
-		char buff[256];
+		char buff[512];
 	}k_object;
 
 	/* this is our global uaf object that will eventually be freed and used */
@@ -79,7 +79,7 @@
 		if(global_uaf_obj->fn)
 		{
 			printk(KERN_WARNING "[x] Calling %p [x]\n", global_uaf_obj->fn);
-			global_uaf_obj->fn();
+	//		global_uaf_obj->fn();
 		}
 	}
 
