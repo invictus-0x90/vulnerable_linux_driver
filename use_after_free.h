@@ -20,7 +20,7 @@
 
 	typedef struct k_object
 	{
-		char buff[512];
+		char buff[96];
 	}k_object;
 
 	/* this is our global uaf object that will eventually be freed and used */
@@ -82,8 +82,8 @@
 		if(global_uaf_obj->fn)
 		{
 			//debug info
-			printk(KERN_WARNING "[x] Calling %p [x]\n", global_uaf_obj->fn);
-			global_uaf_obj->fn();
+			printk(KERN_WARNING "[x] Calling 0x%p [x]\n", global_uaf_obj->fn);
+			//global_uaf_obj->fn();
 		}
 	}
 
@@ -97,7 +97,7 @@
 		}
 
 		copy_from_user(trash_object, user_kobj, sizeof(k_object));
-
+		printk(KERN_WARNING "[x] Allocated k_object [x]\n");
 		return 0;
 	}
 
