@@ -11,16 +11,16 @@
 
 	typedef struct uaf_obj
 	{
-		char buff1[56];
+		char uaf_first_buff[56];
 		void (*fn)(void);
 
-		char buff[20];
+		char uaf_second_buff[20];
 
 	}uaf_obj;
 
 	typedef struct k_object
 	{
-		char buff[96];
+		char kobj_buff[96];
 	}k_object;
 
 	/* this is our global uaf object that will eventually be freed and used */
@@ -51,7 +51,7 @@
 		}
 
 		target->fn = uaf_callback;
-		memset(target->buff, 0x41, sizeof(target->buff));
+		memset(target->uaf_first_buff, 0x41, sizeof(target->uaf_first_buff));
 
 		global_uaf_obj = target;
 
@@ -83,7 +83,7 @@
 		{
 			//debug info
 			printk(KERN_WARNING "[x] Calling 0x%p [x]\n", global_uaf_obj->fn);
-			//global_uaf_obj->fn();
+			global_uaf_obj->fn();
 		}
 	}
 
