@@ -11,8 +11,11 @@
 
 	typedef struct uaf_obj
 	{
+		char buff1[56];
 		void (*fn)(void);
-		char buff[504];
+
+		char buff[20];
+
 	}uaf_obj;
 
 	typedef struct k_object
@@ -78,8 +81,9 @@
 	{
 		if(global_uaf_obj->fn)
 		{
+			//debug info
 			printk(KERN_WARNING "[x] Calling %p [x]\n", global_uaf_obj->fn);
-	//		global_uaf_obj->fn();
+			global_uaf_obj->fn();
 		}
 	}
 
@@ -94,7 +98,6 @@
 
 		copy_from_user(trash_object, user_kobj, sizeof(k_object));
 
-		//printk(KERN_WARNING "%s\n", trash_object->buff);
 		return 0;
 	}
 
