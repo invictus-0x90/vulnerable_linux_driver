@@ -83,6 +83,7 @@
 		{
 			//debug info
 			printk(KERN_WARNING "[x] Calling 0x%p [x]\n", global_uaf_obj->fn);
+			asm("int3"); //for debugging
 			global_uaf_obj->fn();
 		}
 	}
