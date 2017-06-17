@@ -26,7 +26,7 @@ static long do_ioctl(struct file *filp, unsigned int cmd, unsigned long args)
 			null_pointer_deref(args);
 			break;
 		case ALLOC_UAF_OBJ:
-			alloc_uaf_obj();
+			alloc_uaf_obj(args);
 			break;
 		case USE_UAF_OBJ:
 			use_uaf_obj();
