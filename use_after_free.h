@@ -11,9 +11,9 @@
 
 	typedef struct uaf_obj
 	{
-		int arg;
+		long arg;
 		char uaf_first_buff[56];
-		void (*fn)(int);
+		void (*fn)(long);
 
 		char uaf_second_buff[12];
 
@@ -30,7 +30,7 @@
 	/**
 	* A simple callback function
 	*/
-	static void uaf_callback(int num)
+	static void uaf_callback(long num)
 	{
 		printk(KERN_WARNING "[-] Hit callback [-]\n");
 	}
@@ -40,7 +40,7 @@
 	* This objects buffer is then filled with A's, and the 
 	* global uaf pointer is set to it.
 	*/
-	static int alloc_uaf_obj(int __user arg)
+	static int alloc_uaf_obj(long __user arg)
 	{
 		struct uaf_obj *target;
 
@@ -86,7 +86,7 @@
 			//debug info
 			printk(KERN_WARNING "[x] Calling 0x%p[x]\n", global_uaf_obj->fn);
 
-			global_uaf_obj->fn(0);
+			global_uaf_obj->fn(global_uaf_obj->arg);
 		}
 	}
 

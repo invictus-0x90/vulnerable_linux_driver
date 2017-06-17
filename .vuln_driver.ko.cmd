@@ -1,1 +1,0 @@
-cmd_/media/partition/kernel_dev/vulnerable_linux_driver/vuln_driver.ko := ld -r -m elf_x86_64 -T /usr/src/linux-headers-4.8.0-2-common/scripts/module-common.lds --build-id  -o /media/partition/kernel_dev/vulnerable_linux_driver/vuln_driver.ko /media/partition/kernel_dev/vulnerable_linux_driver/vuln_driver.o /media/partition/kernel_dev/vulnerable_linux_driver/vuln_driver.mod.o
