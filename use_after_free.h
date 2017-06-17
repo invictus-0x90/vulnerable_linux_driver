@@ -11,8 +11,8 @@
 
 	typedef struct uaf_obj
 	{
-		long arg;
 		char uaf_first_buff[56];
+		long arg;
 		void (*fn)(long);
 
 		char uaf_second_buff[12];
@@ -84,7 +84,7 @@
 		if(global_uaf_obj->fn)
 		{
 			//debug info
-			printk(KERN_WARNING "[x] Calling 0x%p[x]\n", global_uaf_obj->fn);
+			printk(KERN_WARNING "[x] Calling 0x%p(%x)[x]\n", global_uaf_obj->fn, global_uaf_obj->arg);
 
 			global_uaf_obj->fn(global_uaf_obj->arg);
 		}
