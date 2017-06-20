@@ -1,7 +1,8 @@
 obj-m += src/vuln_driver.o
 
+EXTRA_CFLAGS += -fno-stack-protector
 all:
-	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
+	make -C /lib/modules/`uname -r`/build M=$(PWD) modules
 clean:
 	rm -rf src/*.ko
 	rm -rf src/*.mod
