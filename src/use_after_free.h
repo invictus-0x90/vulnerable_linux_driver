@@ -84,7 +84,7 @@
 		if(global_uaf_obj->fn)
 		{
 			//debug info
-			printk(KERN_WARNING "[x] Calling 0x%p(%x)[x]\n", global_uaf_obj->fn, global_uaf_obj->arg);
+			printk(KERN_WARNING "[x] Calling 0x%p(%lu)[x]\n", global_uaf_obj->fn, global_uaf_obj->arg);
 
 			global_uaf_obj->fn(global_uaf_obj->arg);
 		}
@@ -93,13 +93,14 @@
 	static int alloc_k_obj(k_object *user_kobj)
 	{
 		k_object *trash_object = kmalloc(sizeof(k_object), GFP_KERNEL);
+		int ret;
 
 		if(!trash_object) {
 			printk(KERN_WARNING "[x] Error allocating k_object memory [-]\n");
 			return -ENOMEM;
 		}
 
-		copy_from_user(trash_object, user_kobj, sizeof(k_object));
+		ret = copy_from_user(trash_object, user_kobj, sizeof(k_object));
 		printk(KERN_WARNING "[x] Allocated k_object [x]\n");
 		return 0;
 	}

@@ -11,10 +11,14 @@
 #include "buffer_overflow.h"
 #include "null_pointer_deref.h"
 #include "use_after_free.h"
+#include "arbitrary_rw.h"
 
 
 static long do_ioctl(struct file *filp, unsigned int cmd, unsigned long args)
 {
+	int ret;
+	unsigned long *p_arg = (unsigned long *)args;
+ 
 	switch(cmd) {
 		case DRIVER_TEST:
 			printk(KERN_WARNING "[x] Talking to device [x]\n");
@@ -37,6 +41,60 @@ static long do_ioctl(struct file *filp, unsigned int cmd, unsigned long args)
 		case FREE_UAF_OBJ:
 			free_uaf_obj();
 			break;
+		case ARBITRARY_RW_INIT:
+		{
+			init_args i_args;
+			int ret;
+
+			if(copy_from_user(&i_args, p_arg, sizeof(init_args)))
+				return -EINVAL;
+
+			ret = arbitrary_rw_init(&i_args);
+			break;
+		}
+		case ARBITRARY_RW_REALLOC:
+		{
+			realloc_args r_args;
+
+			if(copy_from_user(&r_args, p_arg, sizeof(realloc_args)))
+				return -EINVAL;
+
+			ret = realloc_mem_buffer(&r_args);
+			break;
+		}
+		case ARBITRARY_RW_READ:
+		{
+			read_args r_args;
+
+			if(copy_from_user(&r_args, p_arg, sizeof(read_args)))
+				return -EINVAL;
+
+			ret = read_mem_buffer(r_args.buff, r_args.count);
+			break;
+		}
+		case ARBITRARY_RW_SEEK:
+		{
+			seek_args s_args;
+
+			if(copy_from_user(&s_args, p_arg, sizeof(seek_args)))
+				return -EINVAL;
+
+			ret = seek_mem_buffer(&s_args);
+			break;
+		}
+	}
+
+	return ret;
+}
+
+static int vuln_release(struct inode *inode, struct file *filp)
+{
+	if(g_mem_buffer != NULL)
+	{
+		if(g_mem_buffer->data != NULL)
+			kfree(g_mem_buffer->data);
+		kfree(g_mem_buffer);
+		g_mem_buffer = NULL;
 	}
 
 	return 0;
@@ -49,6 +107,7 @@ static long do_ioctl(struct file *filp, unsigned int cmd, unsigned long args)
 static struct file_operations vuln_ops = {
 	.owner = THIS_MODULE,
 	.unlocked_ioctl = do_ioctl,
+	.release = vuln_release,
 };
 
 /**
