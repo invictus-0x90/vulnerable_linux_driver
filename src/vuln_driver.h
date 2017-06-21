@@ -22,5 +22,6 @@
 	#define ARBITRARY_RW_REALLOC _IOR(IOCTL_NUM, 8, unsigned long)
 	#define ARBITRARY_RW_READ _IOWR(IOCTL_NUM, 9, unsigned long)
 	#define ARBITRARY_RW_SEEK _IOR(IOCTL_NUM, 10, unsigned long)
+	#define ARBITRARY_RW_WRITE _IOR(IOCTL_NUM, 11, unsigned long)
 
 #endif

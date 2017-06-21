@@ -82,6 +82,15 @@ static long do_ioctl(struct file *filp, unsigned int cmd, unsigned long args)
 			ret = seek_mem_buffer(&s_args);
 			break;
 		}
+		case ARBITRARY_RW_WRITE:
+		{
+			write_args w_args;
+
+			if(copy_from_user(&w_args, p_arg, sizeof(write_args)))
+				return -EINVAL;
+
+			ret = write_mem_buffer(&w_args);
+		}
 	}
 
 	return ret;

@@ -25,6 +25,11 @@
 		loff_t new_pos;
 	}seek_args;
 
+	typedef struct write_args {
+		char *buff;
+		size_t count;
+	}write_args;
+
 	mem_buffer *g_mem_buffer = NULL;
 
 	/**
@@ -99,6 +104,23 @@
 			return -EINVAL;
 
 		ret = copy_to_user(buff, g_mem_buffer->data + pos, count);
+
+		return ret;
+	}
+
+	static int write_mem_buffer(write_args *w_args)
+	{
+		int ret;
+		loff_t pos;
+		size_t count;
+
+		count = w_args->count;
+		pos = g_mem_buffer->pos;
+
+		if((count + pos) > g_mem_buffer->data_size)
+			return -EINVAL;
+
+		ret = copy_from_user(g_mem_buffer->data + pos, w_args->buff, count);
 
 		return ret;
 	}
