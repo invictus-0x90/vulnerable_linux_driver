@@ -23,5 +23,6 @@
 	#define ARBITRARY_RW_READ _IOWR(IOCTL_NUM, 9, unsigned long)
 	#define ARBITRARY_RW_SEEK _IOR(IOCTL_NUM, 10, unsigned long)
 	#define ARBITRARY_RW_WRITE _IOR(IOCTL_NUM, 11, unsigned long)
-
+	#define UNINITIALISED_STACK_ALLOC _IOR(IOCTL_NUM, 12, unsigned long)
+	#define UNINITIALISED_STACK_USE _IOR(IOCTL_NUM, 13, unsigned long)
 #endif

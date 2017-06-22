@@ -12,7 +12,7 @@
 #include "null_pointer_deref.h"
 #include "use_after_free.h"
 #include "arbitrary_rw.h"
-
+#include "uninitialised_stack_var.h"
 
 static long do_ioctl(struct file *filp, unsigned int cmd, unsigned long args)
 {
@@ -90,6 +90,23 @@ static long do_ioctl(struct file *filp, unsigned int cmd, unsigned long args)
 				return -EINVAL;
 
 			ret = write_mem_buffer(&w_args);
+			break;
+		}
+		case UNINITIALISED_STACK_ALLOC:
+		{
+			ret = copy_to_stack((char *)p_arg);
+			break;
+		}
+		case UNINITIALISED_STACK_USE:
+		{
+			use_obj_args use_obj_arg;
+
+			if(copy_from_user(&use_obj_arg, p_arg, sizeof(use_obj_args)))
+				return -EINVAL;
+
+			use_stack_obj(&use_obj_arg);
+			ret = 0;
+			break;
 		}
 	}
 
