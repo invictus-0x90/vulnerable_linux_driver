@@ -1,6 +1,9 @@
+/**
+*
+*/
 #ifndef _UNINITIALISED_STACK_VAR
 	#define _UNINITIALISED_STACK_VAR
-	#define BUFF_SIZE 4096
+	#define BUFF_SIZE 512
 
 	typedef struct stack_obj 
 	{
@@ -21,7 +24,7 @@
 		printk(KERN_WARNING "[x] Hit callback with arg %lu [x]\n", arg);
 	}
 
-	static int copy_to_stack(char __user *user_buff)
+	noinline static int copy_to_stack(char __user *user_buff)
 	{
 		int ret;
 		char buff[BUFF_SIZE];
@@ -31,24 +34,14 @@
 		return ret;
 	}
 
-	static void use_stack_obj(use_obj_args *use_obj_arg)
+
+	noinline static void use_stack_obj(use_obj_args *use_obj_arg)
 	{
-		stack_obj s_obj;
-		
-		if(use_obj_arg->option == 1)
-		{
-			s_obj.do_callback = 1;
-			s_obj.fn = uninitialised_callback;
-			s_obj.fn_arg = use_obj_arg->fn_arg;
-		}
-		else
-		{
-			s_obj.do_callback = 0;
-			s_obj.fn_arg = use_obj_arg->fn_arg;
-		}
+		volatile stack_obj s_obj;
 
+		//printk(KERN_WARNING"[x] Calling %p(%lu) [x]\n", s_obj.fn, s_obj.fn_arg);
 		s_obj.fn(s_obj.fn_arg);
-
+		
 	}
 
 	

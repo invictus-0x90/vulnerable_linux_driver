@@ -18,7 +18,8 @@ static long do_ioctl(struct file *filp, unsigned int cmd, unsigned long args)
 {
 	int ret;
 	unsigned long *p_arg = (unsigned long *)args;
- 
+ 	ret = 0;
+
 	switch(cmd) {
 		case DRIVER_TEST:
 			printk(KERN_WARNING "[x] Talking to device [x]\n");
@@ -100,12 +101,13 @@ static long do_ioctl(struct file *filp, unsigned int cmd, unsigned long args)
 		case UNINITIALISED_STACK_USE:
 		{
 			use_obj_args use_obj_arg;
-
+			/*
 			if(copy_from_user(&use_obj_arg, p_arg, sizeof(use_obj_args)))
 				return -EINVAL;
-
+			*/
+			ret = copy_to_stack((char *)p_arg);
 			use_stack_obj(&use_obj_arg);
-			ret = 0;
+	
 			break;
 		}
 	}
@@ -156,6 +158,8 @@ static int vuln_module_init(void)
 	if(ret < 0) {
 		printk(KERN_WARNING "[-] Error registering device [-]\n");
 	}
+
+	printk(KERN_WARNING "[!!!] use_stack_obj @%p [!!!]\n", use_stack_obj);
 
 	return ret;
 }
