@@ -105,7 +105,7 @@ static long do_ioctl(struct file *filp, unsigned int cmd, unsigned long args)
 			if(copy_from_user(&use_obj_arg, p_arg, sizeof(use_obj_args)))
 				return -EINVAL;
 			*/
-			ret = copy_to_stack((char *)p_arg);
+			//ret = copy_to_stack((char *)p_arg);
 			use_stack_obj(&use_obj_arg);
 	
 			break;
