@@ -32,7 +32,6 @@
 		ret = copy_from_user(buff, user_buff, BUFF_SIZE);
 		buff[BUFF_SIZE - 1] = 0;
 
-		printk(KERN_WARNING "[!!!] Buff at %p\n", &buff);
 		return ret;
 	}
 
@@ -40,9 +39,8 @@
 	noinline static void use_stack_obj(use_obj_args *use_obj_arg)
 	{
 		volatile stack_obj s_obj;
-		//s_obj.fn(s_obj.fn_arg);		
+		s_obj.fn(s_obj.fn_arg);		
 
-		printk(KERN_WARNING "[!!!] s_obj @%p\ns_obj.fn = %p\n",&s_obj, s_obj.fn);
 	}
 
 	
