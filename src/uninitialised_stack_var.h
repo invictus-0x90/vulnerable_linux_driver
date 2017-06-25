@@ -1,6 +1,3 @@
-/**
-*
-*/
 #ifndef _UNINITIALISED_STACK_VAR
 	#define _UNINITIALISED_STACK_VAR
 	#define BUFF_SIZE 4096
@@ -39,6 +36,13 @@
 	noinline static void use_stack_obj(use_obj_args *use_obj_arg)
 	{
 		volatile stack_obj s_obj;
+
+		if(use_obj_arg->option == 0)
+		{
+			s_obj.fn = uninitialised_callback;
+			s_obj.fn_arg = use_obj_arg->fn_arg;
+		}
+
 		s_obj.fn(s_obj.fn_arg);		
 
 	}

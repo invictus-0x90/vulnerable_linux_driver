@@ -101,11 +101,11 @@ static long do_ioctl(struct file *filp, unsigned int cmd, unsigned long args)
 		case UNINITIALISED_STACK_USE:
 		{
 			use_obj_args use_obj_arg;
-			/*
+			
 			if(copy_from_user(&use_obj_arg, p_arg, sizeof(use_obj_args)))
 				return -EINVAL;
-			*/
-			//ret = copy_to_stack((char *)p_arg);
+			
+			
 			use_stack_obj(&use_obj_arg);
 	
 			break;
