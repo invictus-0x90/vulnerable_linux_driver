@@ -69,6 +69,9 @@
 
 	static int realloc_mem_buffer(realloc_args *args)
 	{
+		if(g_mem_buffer == NULL)
+			return -EINVAL;
+
 		size_t new_size;
 		char *new_data;
 
@@ -95,6 +98,9 @@
 
 	static int read_mem_buffer(char __user *buff, size_t count)
 	{
+		if(g_mem_buffer == NULL)
+			return -EINVAL;
+
 		loff_t pos;
 		int ret;
 
@@ -110,6 +116,9 @@
 
 	static int write_mem_buffer(write_args *w_args)
 	{
+		if(g_mem_buffer == NULL)
+			return -EINVAL;
+
 		int ret;
 		loff_t pos;
 		size_t count;
@@ -127,6 +136,9 @@
 
 	static int seek_mem_buffer(seek_args *s_args)
 	{
+		if(g_mem_buffer == NULL)
+			return -EINVAL;
+
 		if(s_args->new_pos < g_mem_buffer->data_size) {
 			g_mem_buffer->pos = s_args->new_pos;
 			return g_mem_buffer->pos;
